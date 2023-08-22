@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Add CSS styles for the table */
+        table {
+            width: 80%; /* Adjust the width as needed */
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ username }}!</h1>
+        <table>
+            <tr>
+                <th>Mechanic ID</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Address</th>
+                <th>mail</th>
+                <th>Distance</th>
+            </tr>
+            {% for row in nearest_mechanics %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>
+                    <form action="{{ url_for('trigger_function') }}" method="POST">
+                        <input type="hidden" name="mechanic_id" value="{{ row[4] }}">
+                        <input type="hidden" name="user_number" value="{{ user_number }}">
+                        <input type="hidden" name="user_address" value="{{ user_address }}">
+                        <button type="submit">Contact Mechanic</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

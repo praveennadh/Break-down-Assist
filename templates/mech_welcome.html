@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        table {
+            width: 80%; 
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ username }}!</h1>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>Mobile</th>
+                <th>Address</th>
+            </tr>
+            {% for row in tab %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>
+                    <form action="{{ url_for('accept') }}" method="POST">
+                        <input type="hidden" name="mechanic_id" value="{{ username }}">
+                        <input type="hidden" name="user_number" value="{{ row[2] }}">
+                        <button type="submit">Accept</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ url_for('reject') }}" method="POST">
+                        <input type="hidden" name="mechanic_id" value="{{ username }}">
+                        <input type="hidden" name="user_number" value="{{ row[2] }}">
+                        <button type="submit">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

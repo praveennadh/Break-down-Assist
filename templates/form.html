@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gogaadi</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% if alert%}
+    <script>
+        alert("{{ alert }}")
+    </script>
+    {% endif %}
+    <div class="container">
+        <div class="options">
+            <h2>Login or Register</h2>
+            <button onclick="showuserLogin()">User Login</button>
+            <button onclick="showuserRegister()">User Register</button>
+            <button onclick="showmechLogin()">Mech Login</button>
+            <button onclick="showmechRegister()">Mech Register</button>
+        </div>
+
+        <div id="mech-register-form">
+            <h1>Mech-Register</h1>
+            <form action="/mechregister" method="post">
+                <label for="username">UserID:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <label for="mobile">mobile:</label>
+                <input type="text" id="mobile" name="mobile" required><br><br>
+
+                <label for="mail">mail:</label>
+                <input type="text" id="mail" name="mail" required><br><br>
+
+                <label for="mechlatitude">Latitude:</label>
+                <input type="text" id="mechlatitude" name="mechlatitude" readonly><br><br>
+
+                <label for="mechlongitude">Longitude:</label>
+                <input type="text" id="mechlongitude" name="mechlongitude" readonly><br><br>
+                
+                <button id="mech-getLocation">Get Location</button><br><br>
+                
+                <label for="address">address:</label>
+                <input type="text" id="address" name="address" required><br><br>
+
+                <button type="submit">register</button>
+            </form>
+        </div>
+        
+        <div id="mech-login-form">
+            <h1>Mech-Login</h1>
+            <form action="/mechlogin" method="post">
+                <label for="username">UserID:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <button type="submit">login</button>
+            </form>
+        </div>
+        <div id="user-login-form">
+            <h1>User-Login</h1>
+            <form action="/userlogin" method="post">
+                <label for="username">UserID:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <label for="mobile">mobile:</label>
+                <input type="text" id="mobile" name="mobile" required><br><br>
+
+                <label for="userlatitude">Latitude:</label>
+                <input type="text" id="userlatitude" name="userlatitude" readonly><br><br>
+
+                <label for="userlongitude">Longitude:</label>
+                <input type="text" id="userlongitude" name="userlongitude" readonly><br><br>
+
+                <button id="user-getLocation">Get Location</button><br><br>
+
+                <label for="address">address:</label>
+                <input type="text" id="address" name="address" required><br><br>
+
+                <button type="submit">login</button>
+            </form>
+        </div>
+        
+        <div id="user-register-form">
+            <h1>User-Register</h1>
+            <form action="/userregister" method="post">
+                <label for="username">UserID:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+
+    <script>
+        document.getElementById("user-getLocation").addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        });
+
+        document.getElementById("mech-getLocation").addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        });
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            document.getElementById("mechlatitude").value = latitude;
+            document.getElementById("userlatitude").value = latitude;
+            document.getElementById("mechlongitude").value = longitude;
+            document.getElementById("userlongitude").value = longitude;
+
+            /*fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_GOOGLE_MAPS_API_KEY`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results.length > 0) {
+                    const address = data.results[0].formatted_address;
+                    document.getElementById("address").value = address;
+                }
+            });*/
+        }
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
